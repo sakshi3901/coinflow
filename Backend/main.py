@@ -1,7 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from services.auth_service import login_user
-from routers.login import router
+from routers.login import router as login_router
+from routers.liveData import router as live_data_router
+from WebSocket_Folder.delta import start_websocket
+import threading
+import asyncio
+from services.cryptoData import CandleData
 
 app = FastAPI()
 origins = [
@@ -17,9 +21,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(router)
+app.include_router(login_router)
+app.include_router(live_data_router, prefix="/live")
 
 @app.get('/')
 def read_root():
     return {"message": "Backend is working"}
 
+@app.on_event("startup")
+async def startup_event():
+    app.state.loop = asyncio.get_running_loop()
+    threading.Thread(target=start_websocket, args=(app.state.loop,), daemon=True).start()
+
+
+CandleData()

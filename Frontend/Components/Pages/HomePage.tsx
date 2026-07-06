@@ -1,17 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 export default function Homepage() {
-    const router = useRouter();
-
-    return (
-        <div className="p-10 flex justify-center">
-            <div className="flex flex-col items-center">
-                <h1 className="text-4xl font-semibold tracking-tight mb-10">
-                    Crypto Dashboard
-                </h1>
-                <div className="grid grid-cols-3">
+    return (        <div className="flex w-full max-w-5xl flex-col items-center">
+            <h1 className="mb-10 text-4xl font-semibold tracking-tight">
+                Crypto Dashboard
+            </h1>
+            <div className="grid grid-cols-3">
 
                     {/* Glass Card */}
                     <div className="w-full max-w-md rounded-2xl border border-white/10 
@@ -64,6 +58,5 @@ export default function Homepage() {
                     </div>
                 </div>
             </div>
-        </div>
     );
 }

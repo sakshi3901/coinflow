@@ -1,4 +1,4 @@
-import HomePage from "@/Components/Pages/HomePage";
+import ChartPage from "@/Components/Pages/chartPage";
 import Navbar from "@/Components/Elements/Navbar";
 
 export default function Home() {
@@ -7,7 +7,7 @@ export default function Home() {
             <div className="mb-10 w-full max-w-5xl">
                 <Navbar />
             </div>
-            <HomePage />
+            <ChartPage />
         </div>
     );
 }
