@@ -32,6 +32,3 @@ def read_root():
 async def startup_event():
     app.state.loop = asyncio.get_running_loop()
     threading.Thread(target=start_websocket, args=(app.state.loop,), daemon=True).start()
-
-
-CandleData()

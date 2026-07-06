@@ -3,7 +3,7 @@
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Loginpage from '@/Components/Pages/Loginpage';
 
-const client_id = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
+const client_id: any = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
 
 export default function Home() {
   return (

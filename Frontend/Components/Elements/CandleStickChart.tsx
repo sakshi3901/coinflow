@@ -1,7 +1,20 @@
 import { useEffect, useRef } from "react";
-import { createChart, ColorType, CandlestickSeries, UTCTimestamp } from "lightweight-charts";
+import { createChart, ColorType, CandlestickSeries, UTCTimestamp, CandlestickData } from "lightweight-charts";
 
-export default function Chart() {
+type CandleStickData = CandlestickData<UTCTimestamp> & {
+    time: number | string;
+    open: number;
+    high: number;
+    low: number;
+    close: number;
+    volume?: number;
+};
+
+type CandleStickChartProps = {
+    chartData: CandleStickData[];
+};
+
+export default function CandleStickChart({ chartData }: CandleStickChartProps) {
     const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -20,19 +33,20 @@ export default function Chart() {
             },
             timeScale: {
                 timeVisible: true,
-                secondsVisible: false,
+                tickMarkFormatter: (time: any) => new Date(time * 1000).toLocaleTimeString("en-IN", {
+                    timeZone: "Asia/Kolkata",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                }),
             },
         });
 
-        const candleSeries = chart.addSeries(CandlestickSeries, {
-            upColor: "#26a69a",
-            downColor: "#ef5350",
-            borderVisible: false,
-            wickUpColor: "#26a69a",
-            wickDownColor: "#ef5350",
-        });
+        const candleSeries = chart.addSeries(CandlestickSeries, { upColor: "#26a69a", downColor: "#ef5350", borderVisible: false, wickUpColor: "#26a69a", wickDownColor: "#ef5350" });
 
         let lastCandleTime: number | null = null;
+
+        candleSeries.setData(chartData)
 
         const ws = new WebSocket("ws://127.0.0.1:8000/live/ws");
 
@@ -70,18 +84,12 @@ export default function Chart() {
 
         window.addEventListener("resize", handleResize);
 
-        // Delay fitContent until data arrives
-        const fitTimeout = setTimeout(() => {
-            chart.timeScale().fitContent();
-        }, 500);
-
         return () => {
-            clearTimeout(fitTimeout);
             window.removeEventListener("resize", handleResize);
             ws.close();
             chart.remove();
         };
-    }, []);
+    }, [chartData]);
 
     return (
         <div className="w-screen px-10">

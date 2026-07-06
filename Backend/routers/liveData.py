@@ -1,11 +1,11 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from WebSocket_Folder.client import manager
+from services.cryptoData import CandleData
 
 router = APIRouter()
 
 @router.websocket('/ws')
 async def websocket_endpoint(websocket: WebSocket):
-    print("🔥 CONNECTED SUCCESS")
     await manager.connect(websocket)
 
     try:
@@ -13,3 +13,7 @@ async def websocket_endpoint(websocket: WebSocket):
             await websocket.receive_text()
     except WebSocketDisconnect:
         manager.disconnect(websocket)
+
+@router.get('/chart')
+def chartData():
+    return CandleData()

@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from services.auth_service import login_user
 from pydantic import BaseModel
 
@@ -9,5 +9,9 @@ class LoginRequest(BaseModel):
 
 @router.post('/auth')
 def auth_login(param: LoginRequest):
-    token = param.token
-    return login_user(token)
+    try:
+        jwt_token = login_user(param.token)
+        return {"access_token": jwt_token}
+
+    except Exception as e:
+        raise HTTPException(status_code=401, detail=str(e))
