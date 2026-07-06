@@ -11,7 +11,7 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:3000",
-    "https://cyptopulse.onrender.com"
+    "https://cryptopulse-bay.vercel.app/"
 ]
 
 app.add_middleware(
