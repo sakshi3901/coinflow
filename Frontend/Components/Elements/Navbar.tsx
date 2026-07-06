@@ -22,7 +22,7 @@ export default function Navbar() {
             className="flex w-full items-center justify-between rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl shadow-[0_20px_80px_-20px_rgba(168,85,247,0.35)] sm:px-6"
         >
             <Link href="/home" className="text-lg font-semibold text-white">
-                CoinFlow
+                CrptoPulse
             </Link>
 
             <div className="flex items-center gap-6 sm:gap-8">
@@ -32,11 +32,10 @@ export default function Navbar() {
                         <Link
                             key={href}
                             href={href}
-                            className={`text-sm transition ${
-                                isActive
-                                    ? "font-medium text-white"
-                                    : "text-white/60 hover:text-white"
-                            }`}
+                            className={`text-sm transition ${isActive
+                                ? "font-medium text-white"
+                                : "text-white/60 hover:text-white"
+                                }`}
                         >
                             {label}
                         </Link>

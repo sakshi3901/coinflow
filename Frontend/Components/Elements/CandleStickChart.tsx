@@ -16,6 +16,8 @@ type CandleStickChartProps = {
 
 export default function CandleStickChart({ chartData }: CandleStickChartProps) {
     const containerRef = useRef<HTMLDivElement>(null);
+    const root_url = process.env.NEXT_PUBLIC_ROOT_URL
+    const ws_url = root_url?.replace(/^https?/, 'wss')
 
     useEffect(() => {
         if (!containerRef.current) return;
@@ -48,7 +50,7 @@ export default function CandleStickChart({ chartData }: CandleStickChartProps) {
 
         candleSeries.setData(chartData)
 
-        const ws = new WebSocket("ws://127.0.0.1:8000/live/ws");
+        const ws = new WebSocket(ws_url + "/live/ws");
 
         ws.onmessage = (event) => {
             const candle = JSON.parse(event.data);
